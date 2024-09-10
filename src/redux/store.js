@@ -6,8 +6,7 @@ import recordingsReducer from './recordings/recordingSlice';
 const store = configureStore({
   reducer: {
     user: userReducer,
-    recordings: recordingsReducer, // Add recordings slice here
-
+    recordings: recordingsReducer, 
   },
 });
 
