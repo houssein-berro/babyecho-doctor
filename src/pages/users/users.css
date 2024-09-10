@@ -1,0 +1,79 @@
+/* General container styling */
+.container {
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: 'Inter', sans-serif;
+  color: white;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.search-input:focus {
+  outline: none;
+  transform: scale(1.02);
+}
+
+.data-grid-container {
+  height: 400px;
+  width: 100%;
+  max-width: 1000px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Box */
+.modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.baby-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.baby-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+button {
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+button:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
