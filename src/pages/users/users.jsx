@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllUsers } from '../../redux/users/userActions';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid,GridToolbar } from '@mui/x-data-grid';
 import { Modal, Box, Typography, Button, Card, CardContent, CardActions } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
@@ -94,7 +94,7 @@ const Users = () => {
 
   return (
     <div className="container">
-      <h2 className="title">User Management</h2>
+      <h2 className="title">Baby Management</h2>
 
       <input
         type="text"
@@ -116,6 +116,9 @@ const Users = () => {
             className="data-grid"
             disableSelectionOnClick
             getRowId={(row) => row.id || row._id}
+            slots={{
+              toolbar:GridToolbar
+            }}
           />
         )}
       </div>
