@@ -49,7 +49,7 @@ const BabyAnalysisChart = ({ recordings }) => {
         new Date(recording.timestamp),
         timeRange === 'week' ? 'EEEE' : timeRange === 'year' ? 'MMMM' : 'yyyy-MM-dd'
       );
-      if (recording.analysisResults.resultDetails === category && occurrencesByDate.hasOwnProperty(date)) {
+      if (recording.analysisResults?.resultDetails === category && occurrencesByDate.hasOwnProperty(date)) {
         occurrencesByDate[date] += 1;
       }
     });
@@ -68,7 +68,7 @@ const BabyAnalysisChart = ({ recordings }) => {
   };
 
   recordings.forEach((recording) => {
-    const category = recording.analysisResults.resultDetails;
+    const category = recording.analysisResults?.resultDetails;
     if (category && categoryCount.hasOwnProperty(category)) {
       categoryCount[category]++;
     }
