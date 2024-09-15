@@ -2,3 +2,14 @@ html  {
   margin: 0;
   transition: background-color 0.5s ease-in-out;
 }
+
+
+:root {
+  --primary-color: #ff6347; /* Tomato */
+  --secondary-color: #20b2aa; /* LightSeaGreen */
+  --background-color: #e5e5e5; /* White */
+  --text-color: #333333; /* Dark Gray */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --hover-shadow-color: rgba(0, 0, 0, 0.15);
+  --sidebar-width: 250px;
+}
