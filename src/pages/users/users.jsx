@@ -1,33 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllUsers } from '../../redux/users/userActions';
-import { DataGrid,GridToolbar } from '@mui/x-data-grid';
-import { Modal, Box, Typography, Button, Card, CardContent, CardActions } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  Fade,
+  Backdrop,
+  IconButton,
+} from '@mui/material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './users.css'; // Importing the custom CSS file
+import { useNavigate } from 'react-router-dom';
+import Sidebar from '../../components/sidebar';
+import './users.css';
 
 const Users = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate from React Router
+  const navigate = useNavigate();
 
   const { users, loading, error } = useSelector((state) => state.user);
-  const [searchQuery, setSearchQuery] = useState('');
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [open, setOpen] = useState(false); // Modal state
-  const [selectedUserBabies, setSelectedUserBabies] = useState([]); // To store the babies of the selected user
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedUserBabies, setSelectedUserBabies] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleRowClick = (babies) => {
-    setSelectedUserBabies(babies || []); // Set babies or an empty array
-    setOpen(true); // Open the modal
+    setSelectedUserBabies(babies || []);
+    setOpenModal(true);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleCloseModal = () => setOpenModal(false);
+  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
-  // Function to handle individual baby access
   const handleAccessBaby = (baby) => {
-    // Navigate to the baby's analysis results page
     navigate(`/baby/${baby._id}/analysis`);
   };
 
@@ -37,15 +46,9 @@ const Users = () => {
 
   useEffect(() => {
     if (users && users.length > 0) {
-      const filtered = searchQuery
-        ? users.filter((user) =>
-            user.username?.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-        : users;
-
-      setFilteredUsers(filtered);
+      setFilteredUsers(users);
     }
-  }, [searchQuery, users]);
+  }, [users]);
 
   const columns = [
     {
@@ -54,7 +57,7 @@ const Users = () => {
       width: 200,
       renderCell: (params) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <AccountCircleIcon style={{ marginRight: '10px', color: '#ff6347' }} />
+          <AccountCircleIcon style={{ marginRight: '10px', color: 'var(--primary-color)' }} />
           {params.row.username}
         </div>
       ),
@@ -64,29 +67,22 @@ const Users = () => {
       field: 'babies',
       headerName: 'Babies',
       width: 200,
+      sortable: false,
+      filterable: false,
       renderCell: (params) => {
         const babies = params.row.babies;
         return babies && babies.length > 0 ? (
           <Button
-            variant="contained"
-            style={{
-              backgroundColor: '#20b2aa',
-              color: 'white',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              transition: 'box-shadow 0.3s ease-in-out',
-            }}
+            className="button-contained"
             onClick={() => handleRowClick(babies)}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-            }}
+            aria-label={`View ${babies.length} Babies`}
           >
             View {babies.length} Babies
           </Button>
         ) : (
-          'No babies'
+          <Typography variant="body2" color="textSecondary">
+            No babies
+          </Typography>
         );
       },
     },
@@ -94,90 +90,105 @@ const Users = () => {
 
   return (
     <div className="container">
-      <h2 className="title">Baby Management</h2>
+      <Sidebar open={drawerOpen} onClose={toggleDrawer} />
+      <div className="main-content">
+        <div className="menu-and-title">
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer}
+            className="menu-button1"
+          >
+            <MenuIcon />
+          </IconButton>
+          <h2 className="title">Baby Management</h2>
+        </div>
 
-      <input
-        type="text"
-        className="search-input"
-        placeholder="Search by Name"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+        <div className="data-grid-container">
+          {loading ? (
+            <div className="loading" role="status" aria-live="polite">
+              Loading...
+            </div>
+          ) : (
+            <DataGrid
+              rows={filteredUsers || []}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5, 10, 20]}
+              className="data-grid"
+              disableSelectionOnClick
+              getRowId={(row) => row.id || row._id}
+              slots={{
+                toolbar: GridToolbar,
+              }}
+              aria-label="User Data Grid"
+            />
+          )}
+        </div>
 
-      <div className="data-grid-container">
-        {loading ? (
-          <div className="loading">Loading...</div>
-        ) : (
-          <DataGrid
-            rows={filteredUsers || []}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5, 10, 20]}
-            className="data-grid"
-            disableSelectionOnClick
-            getRowId={(row) => row.id || row._id}
-            slots={{
-              toolbar:GridToolbar
-            }}
-          />
-        )}
+        {error && <p className="error-message">{error}</p>}
+
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          closeAfterTransition
+          slots={{
+            backdrop: Backdrop,
+          }}
+          slotProps={{
+            backdrop: {
+              timeout: 500,
+              className: 'modal-overlay',
+            },
+          }}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Fade in={openModal}>
+            <Box className="modal-box" role="dialog" aria-modal="true">
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                style={{ color: 'var(--primary-color)' }}
+              >
+                Baby Details
+              </Typography>
+              <div className="baby-cards-container">
+                {selectedUserBabies.length > 0 ? (
+                  selectedUserBabies.map((baby) => (
+                    <div key={baby._id} className="baby-card">
+                      <div className="baby-avatar">
+                        {baby.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="baby-info">
+                        <Typography className="baby-name">
+                          {baby.name}
+                        </Typography>
+                        <Typography className="baby-details">
+                          {baby.gender}, {new Date(baby.birthdate).toLocaleDateString()}
+                        </Typography>
+                      </div>
+                      <Button
+                        size="small"
+                        className="button-contained"
+                        onClick={() => handleAccessBaby(baby)}
+                        startIcon={<BabyChangingStationIcon />}
+                        aria-label={`Access ${baby.name}`}
+                      >
+                        Access Baby
+                      </Button>
+                    </div>
+                  ))
+                ) : (
+                  <Typography>No baby data available.</Typography>
+                )}
+              </div>
+            </Box>
+          </Fade>
+        </Modal>
       </div>
-
-      {error && <p className="error-message">{error}</p>}
-
-      {/* Modal to display baby details */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className="modal-box">
-          <Typography id="modal-modal-title" variant="h6" component="h2" style={{ color: '#ff6347' }}>
-            Baby Details
-          </Typography>
-          <div className="baby-cards-container">
-            {selectedUserBabies.length > 0 ? (
-              selectedUserBabies.map((baby) => (
-                <Card key={baby._id} className="baby-card">
-                  <CardContent>
-                    <Typography variant="h6" component="div" style={{ color: '#ff6347' }}>
-                      {baby.name}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      {baby.gender}, {new Date(baby.birthdate).toLocaleDateString()}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      style={{
-                        backgroundColor: '#ff6347',
-                        color: 'white',
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                        transition: 'box-shadow 0.3s ease-in-out',
-                      }}
-                      onClick={() => handleAccessBaby(baby)}
-                      startIcon={<BabyChangingStationIcon />}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-                      }}
-                    >
-                      Access Baby
-                    </Button>
-                  </CardActions>
-                </Card>
-              ))
-            ) : (
-              <Typography>No baby data available.</Typography>
-            )}
-          </div>
-        </Box>
-      </Modal>
     </div>
   );
 };
