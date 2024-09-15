@@ -1,38 +1,42 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginDoctor } from '../../redux/actions/authActions';
-import { useNavigate } from 'react-router-dom';
-import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
+import { loginDoctor } from '../../redux/auth/authActions';
+import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
+import { useEffect } from 'react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Get the navigate function
 
-  const handleSubmit = (e) => {
+  useEffect(()=>{
+    localStorage.clear('token')
+  },[])
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
 
-    dispatch(loginDoctor({ email, password }))
-      .then(() => {
-        navigate('/dashboard');
-      })
-      .catch((err) => setError('Login failed. Please check your credentials.'));
+    try {
+      await dispatch(loginDoctor({ email, password }, navigate)); // Pass navigate to the action
+    } catch (error) {
+      setError('Login failed. Please try again.');
+    }
   };
 
   return (
     <div className="doctor-login-container">
-      <div className="doctor-login-box">
-        <h2 className="doctor-login-title">Doctor Login</h2>
-        <form onSubmit={handleSubmit}>
+      <div className="doctor-login-box glass-effect">
+        <h2 className="doctor-login-title">Welcome Back</h2>
+        <p className="login-subtitle">Please log in to your doctor account</p>
+        <div>
           <div className="input-group">
-            <AiOutlineUser className="input-icon" />
             <input
               type="email"
               placeholder="Email"
@@ -42,9 +46,7 @@ const Login = () => {
               required
             />
           </div>
-
           <div className="input-group">
-            <AiOutlineLock className="input-icon" />
             <input
               type="password"
               placeholder="Password"
@@ -54,13 +56,18 @@ const Login = () => {
               required
             />
           </div>
-
           {error && <p className="error-message">{error}</p>}
-
-          <button type="submit" className="doctor-login-button">
+          <button
+            type="button"
+            className="doctor-login-button"
+            onClick={handleSubmit}
+          >
             Login
           </button>
-        </form>
+        </div>
+        <p className="signup-link">
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
       </div>
     </div>
   );
