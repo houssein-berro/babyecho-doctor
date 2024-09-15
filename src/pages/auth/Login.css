@@ -1,73 +1,122 @@
-.doctor-login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to bottom, #f0f4f8, #fff5f7);
-  }
-  
-  .doctor-login-box {
-    background-color: #FFF5F7;
-    padding: 40px;
+/* Container for both login and signup */
+.doctor-login-container, .doctor-signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background-size: 300% 300%;
+  padding: 20px;
+}
+
+/* Shared glassmorphism effect for both login and signup */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 50px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.glass-effect:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Title styling for both login and signup */
+.doctor-login-title, .doctor-signup-title {
+  font-size: 28px;
+  color: #20b2aa;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+/* Subtitle styling for both login and signup */
+.login-subtitle, .signup-subtitle {
+  font-size: 18px;
+  color: #959595;
+  margin-bottom: 30px;
+}
+
+/* Link styles shared between login and signup */
+.signup-link, .login-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #959595;
+}
+
+.signup-link a, .login-link a {
+  color: #20b2aa;
+  text-decoration: none;
+}
+
+.signup-link a:hover, .login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Input group shared between login and signup */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Input field styling shared between login and signup */
+.doctor-login-input, .doctor-signup-input {
+  width: 90%;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #1a6983;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  font-size: 16px;
+  color: #000000;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.doctor-login-input:focus, .doctor-signup-input:focus {
+  border-color: #20b2aa;
+  box-shadow: 0 0 2px rgba(32, 178, 170, 0.8);
+  outline: none;
+}
+
+/* Button styling shared between login and signup */
+.doctor-login-button, .doctor-signup-button {
+  width: 100%;
+  background-color: #20b2aa;
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.doctor-login-button:hover, .doctor-signup-button:hover {
+  background-color: #1a6983;
+  box-shadow: 0 12px 25px rgba(32, 178, 170, 0.8);
+  transform: translateY(-5px);
+}
+
+/* Error message styling */
+.error-message {
+  color: #f75c50;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Media Query for Mobile Screens */
+@media (max-width: 600px) {
+  .glass-effect {
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    border: 1px solid #FF6B6B;
+    width: 90%;
   }
-  
-  .doctor-login-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #FF6B6B;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-  
-  .input-group {
-    position: relative;
-    margin-bottom: 20px;
-  }
-  
-  .input-icon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #FF6B6B;
-  }
-  
-  .doctor-login-input {
-    width: 100%;
-    padding: 10px 40px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    background-color: #f7f7f7;
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .doctor-login-button {
-    width: 100%;
-    background-color: #FF6B6B;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .doctor-login-button:hover {
-    background-color: #FF4A4A;
-  }
-  
-  .error-message {
-    color: #FF6B6B;
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  
+}
