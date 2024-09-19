@@ -271,7 +271,6 @@ const BabyAnalysisChart = ({ recordings }) => {
 
   return (
     <div className="chart-container">
-      {/* Back Arrow Icon between charts to go back to the first chart */}
       {selectedCategory && (
         <div className="flex">
           <button
@@ -287,7 +286,7 @@ const BabyAnalysisChart = ({ recordings }) => {
           </h2>
         </div>
       )}
-  
+
       {selectedCategory && (
         <div className="time-range-selector">
           <label htmlFor="timeRange">Select Time Range: </label>
@@ -303,7 +302,7 @@ const BabyAnalysisChart = ({ recordings }) => {
           </select>
         </div>
       )}
-  
+
       <div className="chart-wrapper">
         {selectedCategory ? (
           <Bar
@@ -315,13 +314,17 @@ const BabyAnalysisChart = ({ recordings }) => {
           <Bar data={chartData} options={mainChartOptions} id="chartId" />
         )}
       </div>
-  
-      {/* Download Button */}
-      <button onClick={downloadChart} className="download-btn">
-        Download Chart
-      </button>
+
+      {/* Right-aligned Download Button */}
+      <div className="download-btn-container">
+        <button onClick={downloadChart} className="download-btn">
+          Download Chart
+        </button>
+      </div>
     </div>
   );
-}
-  
+};
+
 export default BabyAnalysisChart;
+0
+oi  

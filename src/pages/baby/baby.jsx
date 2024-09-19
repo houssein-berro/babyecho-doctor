@@ -5,7 +5,7 @@ import { fetchRecordingsByBaby } from "../../redux/recordings/recordingActions";
 import BabyAnalysisChart from "./chart";
 import Sidebar from "../../components/sidebar";
 import { IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu"; // Icon for the menu
+import MenuIcon from "@mui/icons-material/Menu";
 import "./baby.css";
 
 const BabyAnalysis = () => {

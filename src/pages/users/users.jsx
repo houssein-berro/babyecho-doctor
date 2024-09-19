@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllUsers } from '../../redux/users/userActions';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllUsers } from "../../redux/users/userActions";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import {
   Modal,
   Box,
@@ -10,13 +10,13 @@ import {
   Fade,
   Backdrop,
   IconButton,
-} from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
-import { useNavigate } from 'react-router-dom';
-import Sidebar from '../../components/sidebar';
-import './users.css';
+} from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BabyChangingStationIcon from "@mui/icons-material/BabyChangingStation";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "../../components/sidebar";
+import "./users.css";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -52,21 +52,23 @@ const Users = () => {
 
   const columns = [
     {
-      field: 'username',
-      headerName: 'Name',
-      width: 200,
+      field: "username",
+      headerName: "Name",
+      flex: 1,
       renderCell: (params) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <AccountCircleIcon style={{ marginRight: '10px', color: 'var(--primary-color)' }} />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <AccountCircleIcon
+            style={{ marginRight: "10px", color: "var(--primary-color)" }}
+          />
           {params.row.username}
         </div>
       ),
     },
-    { field: 'email', headerName: 'Email', width: 250 },
+    { field: "email", headerName: "Email", flex: 1 },
     {
-      field: 'babies',
-      headerName: 'Babies',
-      width: 200,
+      field: "babies",
+      headerName: "Babies",
+      flex: 1,
       sortable: false,
       filterable: false,
       renderCell: (params) => {
@@ -139,7 +141,7 @@ const Users = () => {
           slotProps={{
             backdrop: {
               timeout: 500,
-              className: 'modal-overlay',
+              className: "modal-overlay",
             },
           }}
           aria-labelledby="modal-modal-title"
@@ -151,7 +153,7 @@ const Users = () => {
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
-                style={{ color: 'var(--primary-color)' }}
+                style={{ color: "var(--primary-color)" }}
               >
                 Baby Details
               </Typography>
@@ -167,7 +169,8 @@ const Users = () => {
                           {baby.name}
                         </Typography>
                         <Typography className="baby-details">
-                          {baby.gender}, {new Date(baby.birthdate).toLocaleDateString()}
+                          {baby.gender},{" "}
+                          {new Date(baby.birthdate).toLocaleDateString()}
                         </Typography>
                       </div>
                       <Button
@@ -177,7 +180,7 @@ const Users = () => {
                         startIcon={<BabyChangingStationIcon />}
                         aria-label={`Access ${baby.name}`}
                       >
-                        Access Baby
+                        View Baby
                       </Button>
                     </div>
                   ))
