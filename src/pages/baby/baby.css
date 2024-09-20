@@ -1,6 +1,6 @@
 .baby-analysis-container {
   max-width: 1000px; 
-  margin: 30px auto; 
+  margin: 0 auto; 
   padding: 50px;
   text-align: center;
   background-color: #ffffff;
@@ -11,42 +11,21 @@
   overflow: hidden;
 }
 
-.title {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 30px; 
-  font-family: 'Inter', sans-serif;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
+.menu-button {
+  position: absolute;
+  top: 10px; /* Adjust positioning */
+  left: 10px; /* Adjust positioning */
+  z-index: 1000; /* Ensure the button is on top */
 }
 
 .chart-title {
   font-size: 1.75rem;
-  margin-bottom: 15px;
   font-family: 'Inter', sans-serif;
   color: #444;
   text-transform: capitalize;
 }
 
-.download-btn {
-  margin-top: 20px;
-  padding: 12px 30px;
-  background-color: #20b2aa;
-  color: white;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  display: block;
-  align-self: right;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
 
-.download-btn:hover {
-  background-color: #008080;
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
 
 .no-data {
   font-size: 1.4rem;
